@@ -3,11 +3,11 @@ from datetime import date
 
 def prepare_text(text, target, img):
     if target is 'site':
-        return prepare_text_for_site(text,img)
+        return prepare_text_for_site(text, img)
     elif target is 'twi':
-        return get_first_sentence
+        return get_first_sentence(text)
     elif target is 'inst':
-        return get_first_sentence()
+        return get_first_sentence(text)
     return
 
 
