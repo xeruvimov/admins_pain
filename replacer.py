@@ -27,7 +27,7 @@ def prepare_text_for_site(text, img):
     result += '\n<!-- more -->\n'
     result += text + '\n'
     for i in range(len(img)):
-        result += '\n![]('+img[i]+'/700x700)'
+        result += '\n![]('+img[i]+')'
     return result
 
 
