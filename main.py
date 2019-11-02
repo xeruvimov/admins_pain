@@ -1,6 +1,7 @@
 import threading
 import traceback
-
+from datetime import date
+from datetime import datetime
 import telebot
 import vk_api
 from telebot.types import InputMediaPhoto
@@ -95,6 +96,8 @@ def check_posts_vk(chat_id):
                 print(original_post_img_urls)
                 bot.send_media_group(chat_id, map(lambda url: InputMediaPhoto(url), original_post_img_urls))
 
+            create_site_post(text)
+
             # if 'copy_history' in post:
             #     copy_history = post['copy_history']
             #     copy_history = copy_history[0]
@@ -131,8 +134,13 @@ def check_posts_vk(chat_id):
 
 def create_site_post(text):
     site_text = replacer.prepare_text(text, 'site', original_post_img_urls)
-
-    return None
+    print(site_text)
+    file_path = data.PATH_TO_SITE_PAGES + str(date.today().strftime("%Y-%m-%d")) + str(datetime.now().hour) + str(
+        datetime.now().minute) + str(datetime.now().second) + ".md"
+    print(file_path)
+    page_file = open(file_path, 'w+', encoding='utf-8')
+    page_file.write(site_text)
+    page_file.close()
 
 
 def send_posts_text(text, chat_id):
