@@ -1,0 +1,6 @@
+virtualenv/
+venv/
+.idea/
+vk_config*.json
+backupsettings.txt
+longtest.py
