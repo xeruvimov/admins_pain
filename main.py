@@ -7,6 +7,7 @@ from telebot.types import InputMediaPhoto
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 
 import data
+import replacer
 
 start_msg = "Start listen just now"
 message_breakers = [':', ' ', '\n']
@@ -15,6 +16,9 @@ max_message_length = 4091
 bot = telebot.TeleBot(data.BOT_TOKEN)
 vk_session = None
 vk_long_poll = None
+
+repost_image_urls = None
+original_post_img_urls = None
 
 
 def get_session():
@@ -39,6 +43,7 @@ def get_longpoll():
 
 def check_posts_vk(chat_id):
     global bot
+    global original_post_img_urls
 
     longpoll = get_longpoll()
 
@@ -85,42 +90,49 @@ def check_posts_vk(chat_id):
             send_posts_text(text, chat_id)
 
             if len(images) > 0:
-                image_urls = list(map(lambda img: max(img["sizes"], key=lambda size: size["type"])["url"], images))
-                print(image_urls)
-                bot.send_media_group(chat_id, map(lambda url: InputMediaPhoto(url), image_urls))
+                original_post_img_urls = list(
+                    map(lambda img: max(img["sizes"], key=lambda size: size["type"])["url"], images))
+                print(original_post_img_urls)
+                bot.send_media_group(chat_id, map(lambda url: InputMediaPhoto(url), original_post_img_urls))
 
-            if 'copy_history' in post:
-                copy_history = post['copy_history']
-                copy_history = copy_history[0]
-                print('--copy_history--')
-                print(copy_history)
-                text = copy_history['text']
-                send_posts_text(text, chat_id)
+            # if 'copy_history' in post:
+            #     copy_history = post['copy_history']
+            #     copy_history = copy_history[0]
+            #     print('--copy_history--')
+            #     print(copy_history)
+            #     text = copy_history['text']
+            #     send_posts_text(text, chat_id)
+            #
+            #     if 'attachments' in copy_history:
+            #         copy_add = copy_history['attachments']
+            #         copy_add = copy_add[0]
+            #
+            #         if copy_add['type'] == 'link':
+            #             link = copy_add['link']
+            #             text = link['title']
+            #             send_posts_text(text, chat_id)
+            #             img = link['photo']
+            #             send_posts_img(img, chat_id)
+            #             url = link['url']
+            #             send_posts_text(url, chat_id)
+            #
+            #         if copy_add['type'] == 'photo':
+            #             attach = copy_history['attachments']
+            #             for img in attach:
+            #                 image = img['photo']
+            #                 send_posts_img(image, chat_id)
+            #
+            #         if copy_add['type'] == 'doc':
+            #             attach = copy_history['attachments']
+            #             for doc in attach:
+            #                 text = doc['doc']['title'] + '\n' + doc['doc']['url']
+            #                 send_posts_text(text, chat_id)
 
-                if 'attachments' in copy_history:
-                    copy_add = copy_history['attachments']
-                    copy_add = copy_add[0]
 
-                    if copy_add['type'] == 'link':
-                        link = copy_add['link']
-                        text = link['title']
-                        send_posts_text(text, chat_id)
-                        img = link['photo']
-                        send_posts_img(img, chat_id)
-                        url = link['url']
-                        send_posts_text(url, chat_id)
+def create_site_post(text):
+    site_text = replacer.prepare_text(text, 'site', original_post_img_urls)
 
-                    if copy_add['type'] == 'photo':
-                        attach = copy_history['attachments']
-                        for img in attach:
-                            image = img['photo']
-                            send_posts_img(image, chat_id)
-
-                    if copy_add['type'] == 'doc':
-                        attach = copy_history['attachments']
-                        for doc in attach:
-                            text = doc['doc']['title'] + '\n' + doc['doc']['url']
-                            send_posts_text(text, chat_id)
+    return None
 
 
 def send_posts_text(text, chat_id):
@@ -147,14 +159,15 @@ def split(text):
         return [text]
 
 
-def send_posts_img(img, chat_id):
-    global bot
-
-    image_urls = list(map(lambda img: max(img["sizes"], key=lambda size: size["type"])["url"], img))
-    print(image_urls)
-    bot.send_media_group(chat_id, map(lambda url: InputMediaPhoto(url), image_urls))
-
-    print(img['sizes'][-1])
+# def send_posts_img(img, chat_id):
+#     global bot
+#     global repost_image_urls
+#
+#     repost_image_urls = list(map(lambda img: max(img["sizes"], key=lambda size: size["type"])["url"], img))
+#     print(repost_image_urls)
+#     bot.send_media_group(chat_id, map(lambda url: InputMediaPhoto(url), repost_image_urls))
+#
+#     print(img['sizes'][-1])
 
 
 @bot.message_handler(commands=['test'])
