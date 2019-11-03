@@ -8,16 +8,23 @@ TELEGRAM = 'tlg'
 
 
 def prepare_text(text, target, img):
-    text_wv_tag = remove_tag(text)
+    res_text = remove_tag(text)
+    res_text = replace_tag_with_link(text)
     if target is SITE:
-        return prepare_text_for_site(text_wv_tag, img)
+        return prepare_text_for_site(res_text, img)
     elif target is TWITTER:
-        return get_first_sentence(text_wv_tag)
+        return get_first_sentence(res_text)
     elif target is INSTAGRAM:
-        return get_first_sentence(text_wv_tag)
+        return get_first_sentence(res_text)
     elif target is TELEGRAM:
-        return text_wv_tag
+        return res_text
     return
+
+
+def replace_tag_with_link(text):
+    if '@' in text:
+        return text.replace('@','vk.com/')
+
 
 
 def remove_tag(text):
