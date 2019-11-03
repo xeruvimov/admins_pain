@@ -7,7 +7,7 @@ INSTAGRAM = 'instagram'
 TELEGRAM = 'tlg'
 
 
-def prepare_text(text, target, img):
+def prepare_text(text, target, img=None):
     text_wv_tag = remove_tag(text)
     if target is SITE:
         return prepare_text_for_site(text_wv_tag, img)
