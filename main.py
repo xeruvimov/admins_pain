@@ -88,7 +88,7 @@ def check_posts_vk(chat_id):
             if len(doc) != 0:
                 text += '\n'
                 text += '\n'.join(doc)
-            send_posts_text(replacer.prepare_text(text, replacer.TELEGRAM), chat_id)
+            send_posts_text(replacer.prepare_text(text, replacer.TELEGRAM, None), chat_id)
 
             if len(images) > 0:
                 original_post_img_urls = list(
