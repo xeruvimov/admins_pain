@@ -31,8 +31,8 @@ def prepare_text_for_site(text, img):
     return result
 
 
-def find_pos_of_first_separator(text):
-    return text.find('\n')
+# def find_pos_of_first_separator(text):
+#     return text.find('\n')
     # dot = text.find('.')
     # vosk = text.find('!')
     # vop = text.find('?')
@@ -43,7 +43,8 @@ def find_pos_of_first_separator(text):
 
 
 def get_first_sentence(text):
-    return text[0:find_pos_of_first_separator(text)]
+    return text.split('\n')[0]
+    # return text[0:find_pos_of_first_separator(text)]
 
 
 # if __name__ == '__main__':
