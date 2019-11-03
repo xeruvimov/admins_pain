@@ -26,8 +26,9 @@ def prepare_text_for_site(text, img):
     result += '\n+++'
     result += '\n<!-- more -->\n'
     result += text + '\n'
-    for i in range(len(img)):
-        result += '\n![]('+img[i]+')'
+    if len(img) > 0:
+        for i in range(len(img)):
+            result += '\n![]('+img[i]+')'
     return result
 
 
