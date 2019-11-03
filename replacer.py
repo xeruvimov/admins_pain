@@ -6,7 +6,7 @@ TWITTER = 'twitter'
 INSTAGRAM = 'instagram'
 TELEGRAM = 'tlg'
 
-
+#push
 def prepare_text(text, target, img):
     res_text = remove_tag(text)
     res_text = replace_tag_with_link(text)
