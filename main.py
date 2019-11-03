@@ -88,7 +88,7 @@ def check_posts_vk(chat_id):
             if len(doc) != 0:
                 text += '\n'
                 text += '\n'.join(doc)
-            send_posts_text(text, chat_id)
+            send_posts_text(replacer.prepare_text(text, replacer.TELEGRAM), chat_id)
 
             if len(images) > 0:
                 original_post_img_urls = list(
@@ -99,42 +99,10 @@ def check_posts_vk(chat_id):
             bot.send_message(data.MY_CHAT_ID, "News posted on telegram")
             create_site_post(text)
             bot.send_message(data.MY_CHAT_ID, "News posted on site")
-            # if 'copy_history' in post:
-            #     copy_history = post['copy_history']
-            #     copy_history = copy_history[0]
-            #     print('--copy_history--')
-            #     print(copy_history)
-            #     text = copy_history['text']
-            #     send_posts_text(text, chat_id)
-            #
-            #     if 'attachments' in copy_history:
-            #         copy_add = copy_history['attachments']
-            #         copy_add = copy_add[0]
-            #
-            #         if copy_add['type'] == 'link':
-            #             link = copy_add['link']
-            #             text = link['title']
-            #             send_posts_text(text, chat_id)
-            #             img = link['photo']
-            #             send_posts_img(img, chat_id)
-            #             url = link['url']
-            #             send_posts_text(url, chat_id)
-            #
-            #         if copy_add['type'] == 'photo':
-            #             attach = copy_history['attachments']
-            #             for img in attach:
-            #                 image = img['photo']
-            #                 send_posts_img(image, chat_id)
-            #
-            #         if copy_add['type'] == 'doc':
-            #             attach = copy_history['attachments']
-            #             for doc in attach:
-            #                 text = doc['doc']['title'] + '\n' + doc['doc']['url']
-            #                 send_posts_text(text, chat_id)
 
 
 def create_site_post(text):
-    site_text = replacer.prepare_text(text, 'site', original_post_img_urls)
+    site_text = replacer.prepare_text(text, replacer.SITE, original_post_img_urls)
     print(site_text)
     file_path = data.PATH_TO_SITE_PAGES + str(date.today().strftime("%Y-%m-%d")) + str(datetime.now().hour) + str(
         datetime.now().minute) + str(datetime.now().second) + ".md"
@@ -166,17 +134,6 @@ def split(text):
         return [good_part] + split(bad_part)
     else:
         return [text]
-
-
-# def send_posts_img(img, chat_id):
-#     global bot
-#     global repost_image_urls
-#
-#     repost_image_urls = list(map(lambda img: max(img["sizes"], key=lambda size: size["type"])["url"], img))
-#     print(repost_image_urls)
-#     bot.send_media_group(chat_id, map(lambda url: InputMediaPhoto(url), repost_image_urls))
-#
-#     print(img['sizes'][-1])
 
 
 @bot.message_handler(commands=['test'])
