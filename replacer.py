@@ -38,7 +38,7 @@ def prepare_text_for_site(text, img):
     result += text + '\n'
     if img is not None:
         for i in img:
-            result += '\n![](' + img[i] + ')'
+            result += '\n![](' + i + ')'
     return result
 
 
