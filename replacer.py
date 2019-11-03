@@ -9,7 +9,7 @@ TELEGRAM = 'tlg'
 
 def prepare_text(text, target, img):
     res_text = remove_tag(text)
-    res_text = replace_tag_with_link(res_text)
+    # res_text = replace_tag_with_link(res_text)
     if target is SITE:
         return prepare_text_for_site(res_text, img)
     elif target is TWITTER:
