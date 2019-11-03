@@ -4,15 +4,19 @@ import math
 SITE = 'site'
 TWITTER = 'twitter'
 INSTAGRAM = 'instagram'
+TELEGRAM = 'tlg'
 
 
 def prepare_text(text, target, img):
+    text_wv_tag = remove_tag(text)
     if target is SITE:
-        return prepare_text_for_site(text, img)
+        return prepare_text_for_site(text_wv_tag, img)
     elif target is TWITTER:
-        return get_first_sentence(text)
+        return get_first_sentence(text_wv_tag)
     elif target is INSTAGRAM:
-        return get_first_sentence(text)
+        return get_first_sentence(text_wv_tag)
+    elif target is TELEGRAM:
+        return text_wv_tag
     return
 
 
@@ -29,8 +33,7 @@ def prepare_text_for_site(text, img):
     if img is not None:
         for i in img:
             result += '\n![](' + img[i] + ')'
-
-    return remove_tag(text)
+    return result
 
 
 # def find_pos_of_first_separator(text):
