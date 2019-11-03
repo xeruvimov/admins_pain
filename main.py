@@ -96,8 +96,9 @@ def check_posts_vk(chat_id):
                 print(original_post_img_urls)
                 bot.send_media_group(chat_id, map(lambda url: InputMediaPhoto(url), original_post_img_urls))
 
+            bot.send_message(data.MY_CHAT_ID, "News posted on telegram")
             create_site_post(text)
-
+            bot.send_message(data.MY_CHAT_ID, "News posted on site")
             # if 'copy_history' in post:
             #     copy_history = post['copy_history']
             #     copy_history = copy_history[0]
