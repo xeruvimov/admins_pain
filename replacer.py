@@ -29,7 +29,8 @@ def prepare_text_for_site(text, img):
     if img is not None:
         for i in img:
             result += '\n![](' + img[i] + ')'
-    return result
+
+    return remove_tag(text)
 
 
 # def find_pos_of_first_separator(text):
