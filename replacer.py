@@ -32,13 +32,14 @@ def prepare_text_for_site(text, img):
 
 
 def find_pos_of_first_separator(text):
-    dot = text.find('.')
-    vosk = text.find('!')
-    vop = text.find('?')
-    dot=math.inf if dot == -1 else dot
-    vosk = math.inf if vosk == -1 else vosk
-    vop = math.inf if vop == -1 else vop
-    return min(dot, vosk, vop)
+    return text.find('\n')
+    # dot = text.find('.')
+    # vosk = text.find('!')
+    # vop = text.find('?')
+    # dot=math.inf if dot == -1 else dot
+    # vosk = math.inf if vosk == -1 else vosk
+    # vop = math.inf if vop == -1 else vop
+    # return min(dot, vosk, vop)
 
 
 def get_first_sentence(text):
